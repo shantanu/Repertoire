@@ -45,8 +45,9 @@ public class Repertoire {
         for (Element e : xmlMusicPieceList) {
             String name = e.getChildText(NAME);
             String composer = e.getChildText(COMPOSER);
+            String opus = e.getChildText(OPUS);
 
-            MusicPiece temp = new MusicPiece(name, composer);
+            MusicPiece temp = new MusicPiece(name, opus, composer);
             musicPieces.add(temp);
         }
 
@@ -65,9 +66,13 @@ public class Repertoire {
             name.addContent(mp.getName());
 
             Element composer = new Element(COMPOSER);
-            name.addContent(mp.getComposer());
+            composer.addContent(mp.getComposer());
+
+            Element opus = new Element(OPUS);
+            opus.addContent(mp.getOpus());
 
             temp.addContent(name);
+            temp.addContent(opus);
             temp.addContent(composer);
 
             xmlRoot.addContent(temp);
@@ -105,5 +110,6 @@ public class Repertoire {
     private static final String MUSIC_PIECE = "MusicPiece";
     private static final String NAME = "Name";
     private static final String COMPOSER = "Composer";
+    private static final String OPUS = "Opus";
 
 }
