@@ -1,12 +1,13 @@
 package com.google.example.repertoire;
 
 import android.app.Activity;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -48,7 +49,11 @@ public class MainActivity extends Activity {
 
         for (int i = 0; i < pieces.getChildCount(); i++)
         {
-            mp.add(i, new MusicPiece());
+            ViewGroup view = (ViewGroup) pieces.getChildAt(i);
+
+            // MAKING A NEW MUSIC PIECE IN THE ARRAY LIST
+            mp.add(i, new MusicPiece(((EditText)view.findViewById(R.id.composer_edit)).getText().toString(),
+                                    ((EditText)view.findViewById(R.id.opus_edit)).getText().toString()) + );
         }
     }
 
@@ -59,13 +64,6 @@ public class MainActivity extends Activity {
         return true;
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        // ignore orientation change
-        if (newConfig.orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            super.onConfigurationChanged(newConfig);
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
