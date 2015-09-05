@@ -24,6 +24,8 @@ public class MainActivity extends Activity {
     LinearLayout pieces;
 
     Repertoire rep;
+    Schedule schedule;
+    DataManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +34,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         pieces = (LinearLayout) findViewById(R.id.mylist);
-        rep = new Repertoire();
-        rep.setContext(this);
-        rep.loadData();
+        manager = new DataManager();
+        manager.setContext(this);
+        manager.loadData();
+
+        rep = manager.getRepertoire();
+        schedule = manager.getSchedule();
 
         if (rep.getMusicPieces().size() > 0)
         {
@@ -89,7 +94,7 @@ public class MainActivity extends Activity {
             Log.d(new String(), m.toString());
         }
 
-        rep.saveData();
+        manager.saveData();
     }
 
     private void populateLayout (ArrayList<MusicPiece> mp) {
