@@ -6,17 +6,18 @@ package com.google.example.repertoire;
 
 import android.content.Context;
 
-import org.jdom2.*;
-import org.jdom2.input.*;
-import org.jdom2.output.*;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.XMLOutputter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import java.io.OutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Repertoire {
 
@@ -75,10 +76,13 @@ public class Repertoire {
         XMLOutputter xmlWriter = new XMLOutputter();
         try {
             Document tempDoc = new Document(xmlRoot);
-            xmlWriter.output(tempDoc, new FileOutputStream((saveFile));
+            xmlWriter.output(tempDoc, new FileOutputStream((saveFile)));
         } catch (FileNotFoundException e) {
             return false;
+        } catch (IOException e) {
+            return false;
         }
+
 
         return true;
     }

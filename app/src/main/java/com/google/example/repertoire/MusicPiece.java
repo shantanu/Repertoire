@@ -4,8 +4,14 @@ package com.google.example.repertoire;
  * Created by Yanjun on 9/5/2015.
  */
 public class MusicPiece implements Comparable<MusicPiece> {
+
+    private String name;
+    private String opus;
+    private String composer;
+
     public MusicPiece() {
         name = "";
+        opus = "";
         composer = "";
     }
 
@@ -39,6 +45,5 @@ public class MusicPiece implements Comparable<MusicPiece> {
         return name.equals(other.getName());
     }
 
-    private String name;
-    private String composer;
+
 }
