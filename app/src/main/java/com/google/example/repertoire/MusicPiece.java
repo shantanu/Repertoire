@@ -6,18 +6,39 @@ package com.google.example.repertoire;
 public class MusicPiece implements Comparable<MusicPiece> {
 
     private String name;
-    private String opus;
+    private int opus;
+    private int number;
     private String composer;
 
     public MusicPiece() {
         name = "";
-        opus = "";
+        opus = 0;
+        number = 0;
         composer = "";
     }
 
-    public MusicPiece(String name, String opus, String composer) {
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getOpus() {
+        return opus;
+    }
+
+    public void setOpus(int opus) {
+
+        this.opus = opus;
+    }
+
+    public MusicPiece(String name, int opus, int number, String composer) {
         this.name = name;
         this.opus = opus;
+        this.number = number;
+
         this.composer = composer;
     }
 
@@ -32,14 +53,6 @@ public class MusicPiece implements Comparable<MusicPiece> {
     public String getComposer() {
 
         return composer;
-    }
-
-    public String getOpus() {
-        return opus;
-    }
-
-    public void setOpus(String opus) {
-        this.opus = opus;
     }
 
     public void setComposer(String composer) {
