@@ -1,12 +1,14 @@
 package com.google.example.repertoire;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ public class MainActivity extends Activity {
 
     LinearLayout pieces;
 
-    int clickCounter = 0;
+    Repertoire rep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +30,26 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         pieces = (LinearLayout) findViewById(R.id.mylist);
+        rep = new Repertoire();
+        rep.setContext(this);
+        rep.loadData();
     }
 
     //METHOD WHICH WILL HANDLE DYNAMIC INSERTION
     public void addItems(View v) {
-
         pieces.addView(LayoutInflater.from(this).inflate(R.layout.edit_text_layout, pieces, false));
 
-        /*ScrollView pieces = (ScrollView) findViewById(R.id.mylist);
-        pieces.scrollTo(0, pieces.getMaxScrollAmount());*/
+        ScrollView scroller = (ScrollView) findViewById(R.id.scroller);
+        scroller.fullScroll(View.FOCUS_DOWN);
+    }
 
+    public void submitPieces(View v) {
+        ArrayList<MusicPiece> mp = rep.getMusicPieces();
+
+        for (int i = 0; i < pieces.getChildCount(); i++)
+        {
+            mp.add(i, new MusicPiece());
+        }
     }
 
     @Override
@@ -45,6 +57,14 @@ public class MainActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        // ignore orientation change
+        if (newConfig.orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            super.onConfigurationChanged(newConfig);
+        }
     }
 
     @Override
