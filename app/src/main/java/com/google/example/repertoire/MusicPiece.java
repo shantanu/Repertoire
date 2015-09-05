@@ -64,11 +64,19 @@ public class MusicPiece implements Comparable<MusicPiece> {
     }
 
     public int compareTo(MusicPiece other) {
-        return name.compareTo(other.getName());
+        if (composer.compareTo(other.getComposer()) != 0) {
+            return composer.compareTo(other.getComposer());
+        } else if (Integer.compare(opus, other.getOpus()) != 0) {
+            return Integer.compare(opus, other.getOpus());
+        } else if (Integer.compare(number, other.getNumber()) != 0) {
+            return Integer.compare(number, other.getNumber());
+        } else {
+            return 0;
+        }
     }
 
     public boolean equals(MusicPiece other) {
-        return name.equals(other.getName());
+        return (compareTo(other) == 0);
     }
 
 
