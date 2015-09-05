@@ -25,6 +25,8 @@ public class MainActivity extends Activity {
     LinearLayout pieces;
 
     Repertoire rep;
+    Schedule schedule;
+    DataManager manager;
 
     ArrayList<MusicPiece> mp;
 
@@ -35,9 +37,13 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         pieces = (LinearLayout) findViewById(R.id.mylist);
-        rep = new Repertoire();
-        rep.setContext(this);
-        rep.loadData();
+
+        manager = new DataManager();
+        manager.setContext(this);
+        manager.loadData();
+
+        rep = manager.getRepertoire();
+        schedule = manager.getSchedule();
         mp = rep.getMusicPieces();
         if (mp.size() > 0)
         {
@@ -60,7 +66,7 @@ public class MainActivity extends Activity {
 
         populateLayout();
         Log.d("", "Number of Children: " + pieces.getChildCount());
-        rep.saveData();
+        manager.saveData();
         printArray();
     }
 
@@ -85,7 +91,7 @@ public class MainActivity extends Activity {
         Log.d("", "Size of arraylist " + mp.size());
         Log.d("", "Number of children: " + pieces.getChildCount());
         printArray();
-        rep.saveData();
+        manager.saveData();
 
 
         /*ScrollView scroller = (ScrollView) findViewById(R.id.scroller);
@@ -116,7 +122,7 @@ public class MainActivity extends Activity {
             // MAKING A NEW MUSIC PIECE IN THE ARRAY LIST
             mp.add(i, new MusicPiece(composer, opus, no, name));
         }
-        rep.saveData();
+        manager.saveData();
     }
 
     private void populateArrayList() {
@@ -142,7 +148,7 @@ public class MainActivity extends Activity {
             // MAKING A NEW MUSIC PIECE IN THE ARRAY LIST
             mp.add(i, new MusicPiece(composer, opus, no, name));
         }
-
+        
     }
 
     private void populateLayout () {
