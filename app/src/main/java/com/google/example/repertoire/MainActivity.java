@@ -148,7 +148,7 @@ public class MainActivity extends Activity {
             // MAKING A NEW MUSIC PIECE IN THE ARRAY LIST
             mp.add(i, new MusicPiece(composer, opus, no, name));
         }
-        
+
     }
 
     private void populateLayout () {

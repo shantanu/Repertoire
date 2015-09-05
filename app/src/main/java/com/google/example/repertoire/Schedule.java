@@ -8,6 +8,8 @@ import java.util.*;
  */
 public class Schedule {
     public Schedule() {
+        schedule = new ArrayList<MusicPiece>();
+        scheduleIndex = 0;
 
     }
 

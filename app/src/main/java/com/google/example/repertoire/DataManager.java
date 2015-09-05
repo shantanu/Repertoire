@@ -67,6 +67,7 @@ public class DataManager {
         int scheduleIndex = Integer.parseInt(xmlSchedule.getAttributeValue(SCHEDULE_INDEX));
 
         schedule.setScheduleIndex(scheduleIndex);
+        schedule.setRepertoire(rep);
 
         return true;
     }
