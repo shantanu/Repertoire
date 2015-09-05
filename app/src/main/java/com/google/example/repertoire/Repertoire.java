@@ -77,8 +77,7 @@ public class Repertoire {
         try {
             Document tempDoc = new Document(xmlRoot);
             xmlWriter.output(tempDoc, new FileOutputStream((saveFile)));
-        } catch (FileNotFoundException e) {
-            return false;
+
         } catch (IOException e) {
             return false;
         }
