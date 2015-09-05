@@ -1,15 +1,16 @@
 package com.google.example.repertoire;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends Activity {
 
     //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
     ArrayList<String> listItems = new ArrayList<String>();
@@ -21,21 +22,22 @@ public class MainActivity extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ListView pieces = (ListView) findViewById(R.id.mylist);
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
+                R.layout.edit_text_layout,
                 listItems);
-        setListAdapter(adapter);
+        pieces.setAdapter(adapter);
     }
 
     //METHOD WHICH WILL HANDLE DYNAMIC INSERTION
     public void addItems(View v) {
         listItems.add("Clicked : " + clickCounter++);
         adapter.notifyDataSetChanged();
-        /*ListView pieces = (ListView) findViewById(R.id.);
-        pieces.scrollTo(0, pieces.getHeight());*/
+        ListView pieces = (ListView) findViewById(R.id.mylist);
+        pieces.scrollTo(0, pieces.getMaxScrollAmount());
     }
 
     @Override
