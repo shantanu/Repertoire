@@ -34,7 +34,7 @@ public class MusicPiece implements Comparable<MusicPiece> {
         this.opus = opus;
     }
 
-    public MusicPiece(String name, int opus, int number, String composer) {
+    public MusicPiece(String composer , int opus, int number, String name) {
         this.name = name;
         this.opus = opus;
         this.number = number;
@@ -53,6 +53,10 @@ public class MusicPiece implements Comparable<MusicPiece> {
     public String getComposer() {
 
         return composer;
+    }
+
+    public String toString () {
+        return String.format("name: %S opus. %d no. %d, by %S", new Object[]{this.getName(), this.getOpus(), this.getNumber(), this.getComposer()});
     }
 
     public void setComposer(String composer) {
