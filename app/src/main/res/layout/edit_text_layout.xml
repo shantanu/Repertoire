@@ -24,11 +24,13 @@
         android:hint="No."
         android:layout_toRightOf="@id/opus_edit"
         android:layout_below="@id/composer_edit"
-        android:layout_marginLeft="8dp"/>
+        android:layout_marginLeft="8dp"
+        android:id="@+id/no_edit"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/opus_edit"
+        android:id="@+id/name_edit"
         android:hint="Name"/>
     <ImageButton
         android:layout_width="48dp"

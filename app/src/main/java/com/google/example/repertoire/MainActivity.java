@@ -53,7 +53,9 @@ public class MainActivity extends Activity {
 
             // MAKING A NEW MUSIC PIECE IN THE ARRAY LIST
             mp.add(i, new MusicPiece(((EditText)view.findViewById(R.id.composer_edit)).getText().toString(),
-                                    ((EditText)view.findViewById(R.id.opus_edit)).getText().toString()) + );
+                                    (Integer.parseInt(((EditText) view.findViewById(R.id.opus_edit)).getText().toString())),
+                                    (Integer.parseInt(((EditText)view.findViewById(R.id.no_edit)).getText().toString())),
+                                    ((EditText)view.findViewById(R.id.name_edit)).getText().toString()));
         }
     }
 
