@@ -19,10 +19,12 @@ import java.util.List;
 public class DataManager {
     private Repertoire rep;
     private Schedule schedule;
+    private Tracker tracker;
 
     public DataManager() {
         rep = new Repertoire();
         schedule = new Schedule();
+        tracker = new Tracker();
     }
 
     public boolean loadData() {
@@ -39,7 +41,9 @@ public class DataManager {
         }
 
         Element xmlRoot = xmlDoc.getRootElement();
-        List<Element> xmlMusicPieceList = xmlRoot.getChildren(MUSIC_PIECE);
+
+        Element xmlRepertoire = xmlRoot.getChild(REPERTOIRE);
+        List<Element> xmlMusicPieceList = xmlRepertoire.getChildren(MUSIC_PIECE);
 
         for (Element e : xmlMusicPieceList) {
             String name = e.getChildText(NAME);
@@ -65,9 +69,20 @@ public class DataManager {
         }
 
         int scheduleIndex = Integer.parseInt(xmlSchedule.getAttributeValue(SCHEDULE_INDEX));
+        int dayOfLastUpdate = Integer.parseInt(xmlSchedule.getAttributeValue(DAY_OF_LAST_UPDATE));
 
         schedule.setScheduleIndex(scheduleIndex);
+
         schedule.setRepertoire(rep);
+
+        schedule.setDayOfLastUpdate(dayOfLastUpdate);
+
+        Element xmlTracker = xmlRoot.getChild(TRACKER);
+        int points = Integer.parseInt(xmlTracker.getAttributeValue(POINTS));
+        dayOfLastUpdate = Integer.parseInt(xmlTracker.getAttributeValue(DAY_OF_LAST_UPDATE));
+
+        tracker.setDayOfLastUpdate(dayOfLastUpdate);
+        tracker.setPoints(points);
 
         return true;
     }
@@ -76,6 +91,8 @@ public class DataManager {
         File saveFile = new File(appContext.getFilesDir(), FILENAME);
 
         Element xmlRoot = new Element(ROOT);
+
+        Element xmlRepertoire = new Element(REPERTOIRE);
 
         for (MusicPiece mp : rep.getMusicPieces()) {
             Element temp = new Element(MUSIC_PIECE);
@@ -97,11 +114,14 @@ public class DataManager {
             temp.addContent(number);
             temp.addContent(composer);
 
-            xmlRoot.addContent(temp);
+            xmlRepertoire.addContent(temp);
         }
+
+        xmlRoot.addContent(xmlRepertoire);
 
         Element xmlSchedule = new Element(SCHEDULE);
         xmlSchedule.setAttribute(SCHEDULE_INDEX, Integer.toString(schedule.getScheduleIndex()));
+        xmlSchedule.setAttribute(DAY_OF_LAST_UPDATE, Integer.toString(schedule.getDayOfLastUpdate()));
 
         for (MusicPiece mp : schedule.getSchedule()) {
             Element temp = new Element(MUSIC_PIECE);
@@ -128,6 +148,10 @@ public class DataManager {
 
         xmlRoot.addContent(xmlSchedule);
 
+        Element xmlTracker = new Element(TRACKER);
+        xmlTracker.setAttribute(POINTS, Integer.toString(tracker.getPoints()));
+        xmlTracker.setAttribute(DAY_OF_LAST_UPDATE, Integer.toString(tracker.getDayOfLastUpdate()));
+
         XMLOutputter xmlWriter = new XMLOutputter();
         try {
             Document tempDoc = new Document(xmlRoot);
@@ -149,6 +173,10 @@ public class DataManager {
         return schedule;
     }
 
+    public Tracker getTracker() {
+        return tracker;
+    }
+
     public void setContext(Context context) {
         appContext = context;
     }
@@ -161,6 +189,7 @@ public class DataManager {
 
     private static final String FILENAME = "savefile.xml";
     private static final String ROOT = "Root";
+    private static final String REPERTOIRE = "Repertoire";
     private static final String MUSIC_PIECE = "MusicPiece";
     private static final String NAME = "Name";
     private static final String COMPOSER = "Composer";
@@ -168,6 +197,8 @@ public class DataManager {
     private static final String NUMBER = "Number";
     private static final String SCHEDULE = "Schedule";
     private static final String SCHEDULE_INDEX = "schedule-index";
-
+    private static final String DAY_OF_LAST_UPDATE = "day-of-last-update";
+    private static final String TRACKER = "Tracker";
+    private static final String POINTS = "points";
 
 }
