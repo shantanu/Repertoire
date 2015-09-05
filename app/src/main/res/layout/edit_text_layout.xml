@@ -38,6 +38,7 @@
         android:layout_height="48dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/composer_edit"
-        android:src="@drawable/ic_cancel_black_48dp"/>
+        android:background="@drawable/cancel"
+        android:id="@+id/cancel_button" />
 
 </RelativeLayout>

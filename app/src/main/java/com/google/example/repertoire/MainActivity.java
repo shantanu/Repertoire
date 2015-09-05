@@ -9,8 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,8 @@ public class MainActivity extends Activity {
 
     Repertoire rep;
 
+    ArrayList<MusicPiece> mp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,47 +38,102 @@ public class MainActivity extends Activity {
         rep = new Repertoire();
         rep.setContext(this);
         rep.loadData();
-
-        if (rep.getMusicPieces().size() > 0)
+        mp = rep.getMusicPieces();
+        if (mp.size() > 0)
         {
-            populateLayout(rep.getMusicPieces());
+            populateLayout();
+        }
+    }
+
+    private void deleteItem (int ID) {
+        Log.d("", "In the delete method deleting " + ID);
+
+        mp.remove(ID);
+
+        Log.d("", ID + " Should have been removed");
+        for (int i = ID; i < pieces.getChildCount()-1; i++) {
+            pieces.getChildAt(i+1).findViewById(i+1).setId(i); //lowers the ID of each button by 1
         }
 
+        Log.d("", "Size of ArrayList: " + mp.size());
+        pieces.removeAllViews();
 
+        populateLayout();
+        Log.d("", "Number of Children: " + pieces.getChildCount());
+        rep.saveData();
+        printArray();
     }
+
 
     //METHOD WHICH WILL HANDLE DYNAMIC INSERTION
     public void addItems(View v) {
-        pieces.addView(LayoutInflater.from(this).inflate(R.layout.edit_text_layout, pieces, false));
+        Log.d("","In the Add method!");
+        RelativeLayout toAdd = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.edit_text_layout, pieces, false);
+        ImageButton b = (ImageButton) toAdd.findViewById(R.id.cancel_button);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(new String(), "Cancel Button was clicked!");
+                deleteItem(v.getId());
+            }
+        });
+        toAdd.findViewById(R.id.cancel_button).setId(pieces.getChildCount());
+        pieces.addView(toAdd);
+        mp.clear();
+        populateArrayList();
+        Log.d("", "Added new view");
+        Log.d("", "Size of arraylist " + mp.size());
+        Log.d("", "Number of children: " + pieces.getChildCount());
+        printArray();
+        rep.saveData();
 
-        ScrollView scroller = (ScrollView) findViewById(R.id.scroller);
-        scroller.fullScroll(View.FOCUS_DOWN);
+
+        /*ScrollView scroller = (ScrollView) findViewById(R.id.scroller);
+        scroller.fullScroll(View.FOCUS_DOWN);*/
     }
 
     public void submitPieces(View v) {
-        ArrayList<MusicPiece> mp = rep.getMusicPieces();
 
+        mp.clear();
         for (int i = 0; i < pieces.getChildCount(); i++)
         {
             ViewGroup view = (ViewGroup) pieces.getChildAt(i);
 
             String composer = ((EditText)view.findViewById(R.id.composer_edit)).getText().toString();
+
             int opus;
-            if ((((EditText) view.findViewById(R.id.opus_edit)).getText().toString()).equals("")) {
-                opus = 0;
-            }
-            else {
-                opus = (Integer.parseInt(((EditText) view.findViewById(R.id.opus_edit)).getText().toString()));
-            }
+            if ((((EditText) view.findViewById(R.id.opus_edit)).getText().toString()).equals("")) {opus = 0;}
+            else {opus = (Integer.parseInt(((EditText) view.findViewById(R.id.opus_edit)).getText().toString()));}
 
             int no;
+            if ((((EditText)view.findViewById(R.id.no_edit)).getText().toString()).equals("")) {no = 0;}
+            else {no = (Integer.parseInt(((EditText)view.findViewById(R.id.no_edit)).getText().toString()));}
 
-            if ((((EditText)view.findViewById(R.id.no_edit)).getText().toString()).equals("")) {
-                no = 0;
-            }
-            else {
-                no =  (Integer.parseInt(((EditText)view.findViewById(R.id.no_edit)).getText().toString()));
-            }
+            String name = ((EditText)view.findViewById(R.id.name_edit)).getText().toString();
+
+
+
+            // MAKING A NEW MUSIC PIECE IN THE ARRAY LIST
+            mp.add(i, new MusicPiece(composer, opus, no, name));
+        }
+        rep.saveData();
+    }
+
+    private void populateArrayList() {
+        mp.clear();
+        for (int i = 0; i < pieces.getChildCount(); i++)
+        {
+            ViewGroup view = (ViewGroup) pieces.getChildAt(i);
+
+            String composer = ((EditText)view.findViewById(R.id.composer_edit)).getText().toString();
+
+            int opus;
+                if ((((EditText) view.findViewById(R.id.opus_edit)).getText().toString()).equals("")) {opus = 0;}
+                else {opus = (Integer.parseInt(((EditText) view.findViewById(R.id.opus_edit)).getText().toString()));}
+
+            int no;
+                if ((((EditText)view.findViewById(R.id.no_edit)).getText().toString()).equals("")) {no = 0;}
+                else {no = (Integer.parseInt(((EditText)view.findViewById(R.id.no_edit)).getText().toString()));}
 
             String name = ((EditText)view.findViewById(R.id.name_edit)).getText().toString();
 
@@ -85,26 +143,41 @@ public class MainActivity extends Activity {
             mp.add(i, new MusicPiece(composer, opus, no, name));
         }
 
-        for (MusicPiece m : mp) {
-            Log.d(new String(), m.toString());
-        }
-
-        rep.saveData();
     }
 
-    private void populateLayout (ArrayList<MusicPiece> mp) {
+    private void populateLayout () {
 
         for (int i = 0; i < mp.size(); i++) {
-            pieces.addView(LayoutInflater.from(this).inflate(R.layout.edit_text_layout, pieces, false));
+            RelativeLayout toAdd = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.edit_text_layout, pieces, false);
 
-            ViewGroup vg = (ViewGroup)pieces.getChildAt(i);
+            Log.d("", toAdd.toString());
 
-            Log.d("", vg.toString());
+            ImageButton b = (ImageButton) toAdd.findViewById(R.id.cancel_button);
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(new String(), "Cancel Button was clicked!");
+                    deleteItem(v.getId());
+                }
+            });
+            toAdd.findViewById(R.id.cancel_button).setId(pieces.getChildCount());
+            if (mp.get(i).getOpus() == 0) {
+                ((EditText) toAdd.findViewById(R.id.opus_edit)).setText("");
+            }
+            else {
+                ((EditText) toAdd.findViewById(R.id.opus_edit)).setText(Integer.toString(mp.get(i).getOpus()));
+            }
+            if (mp.get(i).getNumber() == 0) {
+                ((EditText) toAdd.findViewById(R.id.no_edit)).setText("");
+            }
+            else {
+                ((EditText) toAdd.findViewById(R.id.no_edit)).setText(Integer.toString(mp.get(i).getNumber()));
+            }
+            ((EditText) toAdd.findViewById(R.id.name_edit)).setText(mp.get(i).getName());
+            ((EditText) toAdd.findViewById(R.id.composer_edit)).setText(mp.get(i).getComposer());
 
-            ((EditText) vg.findViewById(R.id.name_edit)).setText(mp.get(i).getName());
-            ((EditText) vg.findViewById(R.id.composer_edit)).setText(mp.get(i).getComposer());
-            ((EditText) vg.findViewById(R.id.opus_edit)).setText(Integer.toString(mp.get(i).getOpus()));
-            ((EditText) vg.findViewById(R.id.no_edit)).setText(Integer.toString(mp.get(i).getNumber()));
+
+            pieces.addView(toAdd);
         }
     }
 
@@ -133,6 +206,14 @@ public class MainActivity extends Activity {
 
     public void onClickListener(View view) {
 
+    }
+
+    public void printArray() {
+        ArrayList<MusicPiece> mp = rep.getMusicPieces();
+
+        for (MusicPiece m: mp) {
+            Log.d("",m.toString());
+        }
     }
 
 
