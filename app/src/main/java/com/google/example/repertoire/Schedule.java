@@ -11,9 +11,10 @@ public class Schedule {
 
     }
 
-    public Schedule(ArrayList<MusicPiece> schedule, int scheduleIndex) {
+    public Schedule(ArrayList<MusicPiece> schedule, int scheduleIndex, int dayOfLastUpdate) {
         this.schedule = schedule;
         this.scheduleIndex = scheduleIndex;
+        this.dayOfLastUpdate = dayOfLastUpdate;
     }
 
     public void createNewSchedule() {
@@ -52,7 +53,16 @@ public class Schedule {
         this.rep = rep;
     }
 
+    public void setDayOfLastUpdate(int day) {
+        this.dayOfLastUpdate = day;
+    }
+
+    public int getDayOfLastUpdate() {
+        return dayOfLastUpdate;
+    }
+
     private Repertoire rep;
     private ArrayList<MusicPiece> schedule;
     private int scheduleIndex;
+    private int dayOfLastUpdate;
 }

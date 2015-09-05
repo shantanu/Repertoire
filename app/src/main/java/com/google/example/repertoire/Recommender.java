@@ -3,6 +3,7 @@ package com.google.example.repertoire;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Yanjun on 9/5/2015.
@@ -38,12 +39,25 @@ public class Recommender implements Comparator<ArrayList<MusicPiece>> {
     }
 
     public MusicPiece recommend() {
-        if (compare(rep.getMusicPieces(), schedule.getSchedule()) != 0 || schedule.getScheduleIndex() >= rep.getMusicPieces().size()) {
-            schedule.createNewSchedule();
-        }
 
-        MusicPiece retVal = schedule.getSchedule().get(schedule.getScheduleIndex());
-        schedule.incrementScheduleIndex();
+        GregorianCalendar gc = (GregorianCalendar) GregorianCalendar.getInstance();
+        int curDay = gc.get(GregorianCalendar.DAY_OF_MONTH);
+
+        MusicPiece retVal = null;
+
+        if (curDay != schedule.getDayOfLastUpdate()) {
+
+            if (compare(rep.getMusicPieces(), schedule.getSchedule()) != 0 || schedule.getScheduleIndex() >= rep.getMusicPieces().size()) {
+                schedule.createNewSchedule();
+            }
+
+            retVal = schedule.getSchedule().get(schedule.getScheduleIndex());
+            schedule.incrementScheduleIndex();
+
+            schedule.setDayOfLastUpdate(curDay);
+        } else {
+            retVal = schedule.getSchedule().get(schedule.getScheduleIndex()-1);
+        }
 
         return retVal;
     }
