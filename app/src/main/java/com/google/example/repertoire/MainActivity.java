@@ -49,6 +49,7 @@ public class MainActivity extends Activity {
         {
             populateLayout();
         }
+
     }
 
     private void deleteItem (int ID) {
