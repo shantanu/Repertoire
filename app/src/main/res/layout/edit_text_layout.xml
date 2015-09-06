@@ -40,5 +40,13 @@
         android:layout_below="@id/composer_edit"
         android:background="@drawable/cancel"
         android:id="@+id/cancel_button" />
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/circle"
+        android:id="@+id/addbutton"
+        android:layout_marginTop="122dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/name_edit" />
 
 </RelativeLayout>
