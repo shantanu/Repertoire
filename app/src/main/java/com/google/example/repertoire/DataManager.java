@@ -51,7 +51,7 @@ public class DataManager {
             int opus = Integer.parseInt(e.getChildText(OPUS));
             int number = Integer.parseInt(e.getChildText(NUMBER));
 
-            MusicPiece temp = new MusicPiece(name, opus, number, composer);
+            MusicPiece temp = new MusicPiece(composer, opus, number, name);
             rep.getMusicPieces().add(temp);
         }
 
@@ -64,7 +64,7 @@ public class DataManager {
             int opus = Integer.parseInt(e.getChildText(OPUS));
             int number = Integer.parseInt(e.getChildText(NUMBER));
 
-            MusicPiece temp = new MusicPiece(name, opus, number, composer);
+            MusicPiece temp = new MusicPiece(composer, opus, number, name);
             schedule.getSchedule().add(temp);
         }
 
@@ -151,6 +151,8 @@ public class DataManager {
         Element xmlTracker = new Element(TRACKER);
         xmlTracker.setAttribute(POINTS, Integer.toString(tracker.getPoints()));
         xmlTracker.setAttribute(DAY_OF_LAST_UPDATE, Integer.toString(tracker.getDayOfLastUpdate()));
+
+        xmlRoot.addContent(xmlTracker);
 
         XMLOutputter xmlWriter = new XMLOutputter();
         try {

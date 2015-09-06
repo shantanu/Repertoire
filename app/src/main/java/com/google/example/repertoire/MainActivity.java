@@ -52,8 +52,9 @@ public class MainActivity extends Activity {
     }
 
     private void deleteItem (int ID) {
+        //the ID happens to be the index in the arrayList of the MusicPiece
         Log.d("", "In the delete method deleting " + ID);
-
+        //Remove the music piece from the arraylist
         mp.remove(ID);
 
         Log.d("", ID + " Should have been removed");
@@ -61,6 +62,7 @@ public class MainActivity extends Activity {
             pieces.getChildAt(i+1).findViewById(i+1).setId(i); //lowers the ID of each button by 1
         }
 
+        //Remove all the views and put them all back!
         Log.d("", "Size of ArrayList: " + mp.size());
         pieces.removeAllViews();
 
@@ -74,8 +76,11 @@ public class MainActivity extends Activity {
     //METHOD WHICH WILL HANDLE DYNAMIC INSERTION
     public void addItems(View v) {
         Log.d("","In the Add method!");
+        //Temporary Relative Layout to modify
         RelativeLayout toAdd = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.edit_text_layout, pieces, false);
         ImageButton b = (ImageButton) toAdd.findViewById(R.id.cancel_button);
+
+        //Make the ID of each button its displacement from the top of othe linear layout
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +91,7 @@ public class MainActivity extends Activity {
         toAdd.findViewById(R.id.cancel_button).setId(pieces.getChildCount());
         pieces.addView(toAdd);
         mp.clear();
+        //Go from the linear Layout to the arrayList
         populateArrayList();
         Log.d("", "Added new view");
         Log.d("", "Size of arraylist " + mp.size());
@@ -99,33 +105,13 @@ public class MainActivity extends Activity {
     }
 
     public void submitPieces(View v) {
-
-        mp.clear();
-        for (int i = 0; i < pieces.getChildCount(); i++)
-        {
-            ViewGroup view = (ViewGroup) pieces.getChildAt(i);
-
-            String composer = ((EditText)view.findViewById(R.id.composer_edit)).getText().toString();
-
-            int opus;
-            if ((((EditText) view.findViewById(R.id.opus_edit)).getText().toString()).equals("")) {opus = 0;}
-            else {opus = (Integer.parseInt(((EditText) view.findViewById(R.id.opus_edit)).getText().toString()));}
-
-            int no;
-            if ((((EditText)view.findViewById(R.id.no_edit)).getText().toString()).equals("")) {no = 0;}
-            else {no = (Integer.parseInt(((EditText)view.findViewById(R.id.no_edit)).getText().toString()));}
-
-            String name = ((EditText)view.findViewById(R.id.name_edit)).getText().toString();
-
-
-
-            // MAKING A NEW MUSIC PIECE IN THE ARRAY LIST
-            mp.add(i, new MusicPiece(composer, opus, no, name));
-        }
+        //Go from the linear layout to the arraylist
+        populateArrayList();
         manager.saveData();
     }
 
     private void populateArrayList() {
+        //Go from the linear layout to the arraylist
         mp.clear();
         for (int i = 0; i < pieces.getChildCount(); i++)
         {
@@ -154,10 +140,11 @@ public class MainActivity extends Activity {
     private void populateLayout () {
 
         for (int i = 0; i < mp.size(); i++) {
+            //inflate a Relative Layout that you can change
             RelativeLayout toAdd = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.edit_text_layout, pieces, false);
 
             Log.d("", toAdd.toString());
-
+            //Each button in each relative layout should have a different ID
             ImageButton b = (ImageButton) toAdd.findViewById(R.id.cancel_button);
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -166,7 +153,10 @@ public class MainActivity extends Activity {
                     deleteItem(v.getId());
                 }
             });
+            //The ID of each button is its displacement from the top of the Linear Layout
             toAdd.findViewById(R.id.cancel_button).setId(pieces.getChildCount());
+
+            //Grab data from the arrayList of MusicPieces and set each of the values - if opus and number are 0 they should be left blank
             if (mp.get(i).getOpus() == 0) {
                 ((EditText) toAdd.findViewById(R.id.opus_edit)).setText("");
             }
@@ -182,7 +172,7 @@ public class MainActivity extends Activity {
             ((EditText) toAdd.findViewById(R.id.name_edit)).setText(mp.get(i).getName());
             ((EditText) toAdd.findViewById(R.id.composer_edit)).setText(mp.get(i).getComposer());
 
-
+            //Add the temporaary view that we just made to the Linear Layout
             pieces.addView(toAdd);
         }
     }
@@ -208,10 +198,6 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onClickListener(View view) {
-
     }
 
     public void printArray() {
