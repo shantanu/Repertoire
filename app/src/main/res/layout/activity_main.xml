@@ -16,50 +16,69 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="8"
         android:id="@+id/scroller"
-        android:drawSelectorOnTop="false">
+        android:drawSelectorOnTop="false"
+        android:layout_weight="1"
+        android:fillViewport="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/mylist">
+            android:id="@+id/mylist"
+            android:showDividers="middle">
 
         </LinearLayout>
 
     </ScrollView>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1"
-        android:showDividers="middle">
-
+        android:layout_weight="4">
+<!--
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/addBtn"
+            android:id="@+id/addBtnn"
             android:text="Add Piece"
             android:layout_weight="1"
             android:textAllCaps="true"
-            android:onClick="addItems"/>
+            />
+-->
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Submit"
-            android:textAllCaps="true"
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_save_white_24dp"
+            android:id="@+id/saveBtn"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/cancel_button"
+            android:layout_alignParentLeft="true"
             android:onClick="submitPieces"/>
 
-        <FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-            <!--android:-->
 
-    </LinearLayout>
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_add_white_24dp"
+            android:id="@+id/addBtn"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom"
+            android:onClick="addItems"/>
+            <!--android:layout_alignEnd="@+id/cancel_button"-->
+
+
+    </RelativeLayout>
 
 
 
